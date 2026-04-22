@@ -483,6 +483,63 @@
       background: linear-gradient(to left, var(--cream), transparent);
     }
 
+    /* ===== Atmosphere ===== */
+    #atmosphere {
+      padding: var(--section-pad) clamp(20px, 8vw, 100px);
+      background: var(--ivory);
+    }
+    .atmosphere-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .atmosphere-hero {
+      width: 100%;
+      aspect-ratio: 16/7;
+      overflow: hidden;
+      margin-top: 50px;
+    }
+    .atmosphere-hero img {
+      transition: transform 8s ease;
+    }
+    .atmosphere-hero:hover img { transform: scale(1.04); }
+
+    .atmosphere-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .atmosphere-grid-item {
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .atmosphere-grid-item img {
+      transition: transform 0.6s ease;
+    }
+    .atmosphere-grid-item:hover img { transform: scale(1.07); }
+
+    .atmosphere-text {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(30px, 5vw, 80px);
+      margin-top: 48px;
+    }
+    .atmosphere-text p {
+      font-size: clamp(0.83rem, 1.3vw, 0.93rem);
+      color: var(--mid);
+      line-height: 2.2;
+      letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 900px) {
+      .atmosphere-grid { grid-template-columns: repeat(2, 1fr); }
+      .atmosphere-text { grid-template-columns: 1fr; }
+      .atmosphere-hero { aspect-ratio: 4/3; }
+    }
+    @media (max-width: 640px) {
+      .atmosphere-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
     /* ===== Info ===== */
     #info {
       padding: var(--section-pad) clamp(20px, 8vw, 100px);
@@ -796,6 +853,7 @@
   <button class="close-btn" onclick="closeMobileNav()">✕</button>
   <a href="#about" onclick="closeMobileNav()">About</a>
   <a href="#menu" onclick="closeMobileNav()">Menu</a>
+  <a href="#atmosphere" onclick="closeMobileNav()">Interior</a>
   <a href="#gallery" onclick="closeMobileNav()">Gallery</a>
   <a href="#info" onclick="closeMobileNav()">Info</a>
   <a href="#sns" onclick="closeMobileNav()">SNS</a>
@@ -813,6 +871,7 @@
   <ul>
     <li><a href="#about">About</a></li>
     <li><a href="#menu">Menu</a></li>
+    <li><a href="#atmosphere">Interior</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#info">Info</a></li>
     <li><a href="#sns">SNS</a></li>
@@ -1037,6 +1096,61 @@
       <span class="topping-item">ゆでたまご</span>
       <span class="topping-item">2種合いがけ</span>
       <span class="topping-item">サイズ S / M / L</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Atmosphere ===== -->
+<section id="atmosphere">
+  <div class="atmosphere-inner">
+    <div class="fade-up">
+      <div class="section-label">Atmosphere</div>
+      <h2 class="section-heading">店内の様子</h2>
+      <p class="section-heading-ja">Interior &amp; Space</p>
+      <div class="divider"></div>
+    </div>
+
+    <!-- メイン大画像 -->
+    <div class="atmosphere-hero fade-up fade-up-delay-1">
+      <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/50fea3920e1471482adf13ccb2dc8bbd.jpg"
+           alt="カレー&カフェM 店内"
+           onerror="this.src='https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&q=80'">
+    </div>
+
+    <!-- 4枚グリッド -->
+    <div class="atmosphere-grid">
+      <div class="atmosphere-grid-item fade-up">
+        <img src="https://tblg.k-img.com/restaurant/images/Rvw/264382/c803de19947dab0fcfe5b056673ec1b2.jpg"
+             alt="店内の様子"
+             onerror="this.src='https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=600&q=80'">
+      </div>
+      <div class="atmosphere-grid-item fade-up fade-up-delay-1">
+        <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/e5915a0be3ab730d5d5faf8af34e702b.jpg"
+             alt="店内の様子"
+             onerror="this.src='https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=600&q=80'">
+      </div>
+      <div class="atmosphere-grid-item fade-up fade-up-delay-2">
+        <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/e82dd46980634b7072ab7a0ba4b92acb.jpg"
+             alt="店内の様子"
+             onerror="this.src='https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&q=80'">
+      </div>
+      <div class="atmosphere-grid-item fade-up fade-up-delay-3">
+        <img src="https://tblg.k-img.com/restaurant/images/Rvw/208603/bd183ab56948363e4962b010757b092f.jpg"
+             alt="外観・入口"
+             onerror="this.src='https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=600&q=80'">
+      </div>
+    </div>
+
+    <!-- 説明テキスト -->
+    <div class="atmosphere-text">
+      <div class="fade-up">
+        <p>広電五日市駅からすぐ、旭園の静かな路地に佇む小さなカフェ。白を基調としたシンプルな空間に、温かみのある木のカウンターが映えます。</p>
+        <p>20席のこじんまりとした店内は、ランチタイムにひとり訪れるのにも、友人とゆっくり過ごすのにも、ちょうどいい居心地のよさです。</p>
+      </div>
+      <div class="fade-up fade-up-delay-1">
+        <p>全席禁煙のすっきりとした空間で、スパイスの香りが食欲をそそります。カウンター席からは厨房の様子も垣間見え、料理への丁寧なこだわりが伝わってきます。</p>
+        <p>駐車場は店舗前に3台分ご用意しています。お車でのご来店も歓迎いたします。</p>
+      </div>
     </div>
   </div>
 </section>
