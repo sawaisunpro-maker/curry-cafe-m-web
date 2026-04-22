@@ -154,6 +154,11 @@
       font-size: clamp(0.8rem, 1.5vw, 1rem);
       letter-spacing: 0.12em;
       opacity: 0.88;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .hero-sub.catch-out {
+      opacity: 0;
+      transform: translateY(10px);
     }
     .hero-dots {
       position: absolute;
@@ -970,19 +975,19 @@
 <section id="hero">
   <div class="hero-slider" id="heroSlider">
     <!-- Slide 1 -->
-    <div class="hero-slide">
+    <div class="hero-slide" data-catch="サクサクのチキンカツ、スパイスの旨みと共に。">
       <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/a9054ef5e7fc3a3e67cb0eb9d34050b1.jpg"
            alt="カレー&カフェMのチキンカツカレー"
            onerror="this.src='https://images.unsplash.com/photo-1604579278560-2b58e48a1f41?w=1200&q=80'">
     </div>
     <!-- Slide 2 -->
-    <div class="hero-slide">
+    <div class="hero-slide" data-catch="ジューシーな唐揚げが、深いコクのルーに溶け込む。">
       <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/6ffeda784083cb95ab4c66e83f1bafb1.jpg"
            alt="カレー&カフェMの唐揚げカレー"
            onerror="this.src='https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=1200&q=80'">
     </div>
     <!-- Slide 3 -->
-    <div class="hero-slide">
+    <div class="hero-slide" data-catch="五日市の小さなカフェで、ほっと一息。">
       <img src="https://tblg.k-img.com/restaurant/images/Rvw/338184/54a4f0075d0248cda7c6dbf29694aaa1.jpg"
            alt="カレー&カフェMの料理"
            onerror="this.src='https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1200&q=80'">
@@ -1009,7 +1014,7 @@
         <line x1="0" y1="138" x2="500" y2="138" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
       </svg>
     </div>
-    <p class="hero-sub">スパイスの香り漂う、五日市のカフェ</p>
+    <p class="hero-sub">サクサクのチキンカツ、スパイスの旨みと共に。</p>
   </div>
 
   <!-- Dots -->
@@ -1532,11 +1537,20 @@
   const totalSlides = 3;
   const slider = document.getElementById('heroSlider');
   const dots = document.querySelectorAll('.hero-dot');
+  const slides = document.querySelectorAll('.hero-slide');
+  const heroSub = document.querySelector('.hero-sub');
 
   function goSlide(index) {
     currentSlide = index;
     slider.style.transform = `translateX(-${100 * index}%)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+    // フェードアウト → テキスト変更 → フェードイン
+    heroSub.classList.add('catch-out');
+    setTimeout(() => {
+      heroSub.textContent = slides[index].dataset.catch;
+      heroSub.classList.remove('catch-out');
+    }, 420);
   }
 
   setInterval(() => {
