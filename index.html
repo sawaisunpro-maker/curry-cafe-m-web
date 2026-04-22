@@ -325,57 +325,140 @@
     }
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(16px, 2.5vw, 36px);
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(14px, 2vw, 28px);
       margin-top: 50px;
     }
-    .menu-card {
-      position: relative;
+
+    /* ── Featured card: horizontal layout ── */
+    .menu-featured {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      background: var(--ivory);
+      border-radius: 24px;
       overflow: hidden;
+      margin-bottom: 8px;
       cursor: pointer;
     }
-    .menu-card-img {
-      aspect-ratio: 4/5;
+    .menu-featured .menu-card-img {
+      flex: 0 0 50%;
+      aspect-ratio: 4/3;
       overflow: hidden;
+      border-radius: 0;
+      width: auto;
+      height: auto;
     }
-    .menu-card-img img {
-      transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    .menu-featured .menu-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.25) contrast(1.06) brightness(1.04) sepia(0.04);
+      animation: imgFloat 7s ease-in-out infinite;
+      transition: transform 0.8s ease, filter 0.5s ease;
     }
-    .menu-card:hover .menu-card-img img { transform: scale(1.07); }
-    .menu-card-body {
-      padding: 18px 0 6px;
+    .menu-featured:hover .menu-card-img img {
+      transform: scale(1.06);
+      filter: saturate(1.38) contrast(1.09) brightness(1.07) sepia(0.04);
+      animation-play-state: paused;
     }
+    .menu-featured .menu-card-body {
+      flex: 1;
+      padding: clamp(28px, 5vw, 72px);
+      text-align: left;
+    }
+    .menu-featured .menu-card-en { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+    .menu-featured .menu-card-ja { font-size: 0.95rem; }
+    .menu-featured .menu-card-desc { font-size: 0.82rem; margin-top: 16px; }
+    .menu-best-badge {
+      display: inline-block;
+      background: var(--spice);
+      color: #fff;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+
+    /* ── Regular cards: circle photo ── */
+    .menu-card {
+      position: relative;
+      text-align: center;
+      cursor: pointer;
+      padding: 28px 16px 20px;
+      background: var(--white);
+      border-radius: 20px;
+    }
+    .menu-card.fade-up {
+      transition: opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.4s ease;
+    }
+    .menu-card:not(.menu-featured):hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 48px rgba(44,31,20,0.1);
+    }
+    .menu-card-img {
+      width: clamp(110px, 13vw, 155px);
+      height: clamp(110px, 13vw, 155px);
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      border: 2.5px solid rgba(201,149,58,0.3);
+      box-shadow: 0 4px 20px rgba(44,31,20,0.08);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease,
+                  transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .menu-card:not(.menu-featured) .menu-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+      filter: saturate(1.22) contrast(1.06) brightness(1.04) sepia(0.03);
+      transition: transform 0.6s ease, filter 0.4s ease;
+    }
+    .menu-card:not(.menu-featured):hover .menu-card-img {
+      border-color: var(--gold);
+      box-shadow: 0 8px 32px rgba(181,106,46,0.25);
+      transform: scale(1.09);
+    }
+    .menu-card:not(.menu-featured):hover .menu-card-img img {
+      transform: scale(1.18);
+      filter: saturate(1.35) contrast(1.09) brightness(1.07) sepia(0.03);
+    }
+    .menu-card-body { padding: 0 8px 4px; }
     .menu-card-en {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       letter-spacing: 0.06em;
       color: var(--brown);
       margin-bottom: 4px;
     }
     .menu-card-ja {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--mid);
       letter-spacing: 0.12em;
       margin-bottom: 8px;
     }
     .menu-card-desc {
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       color: var(--mid);
       opacity: 0.8;
       line-height: 1.9;
     }
     .menu-card-price {
       font-family: 'Lato', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       letter-spacing: 0.1em;
       color: var(--spice);
-      margin-top: 10px;
+      margin-top: 12px;
     }
-    .menu-featured {
-      grid-column: span 2;
-    }
-    .menu-featured .menu-card-img {
-      aspect-ratio: 16/9;
+    @keyframes imgFloat {
+      0%, 100% { transform: scale(1)    translateY(0); }
+      50%       { transform: scale(1.03) translateY(-10px); }
     }
 
     /* ===== Topping Section ===== */
@@ -680,8 +763,10 @@
     @media (max-width: 900px) {
       #about { grid-template-columns: 1fr; }
       .about-img-accent { bottom: -20px; right: -10px; }
-      .menu-grid { grid-template-columns: 1fr 1fr; }
-      .menu-featured { grid-column: span 2; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .menu-featured { flex-direction: column; }
+      .menu-featured .menu-card-img { flex: none; width: 100%; }
+      .menu-featured .menu-card-body { text-align: center; }
       .info-inner { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr; gap: 30px; }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
@@ -690,8 +775,7 @@
       #nav ul { display: none; }
       .nav-reserve { display: none; }
       .hamburger { display: flex; }
-      .menu-grid { grid-template-columns: 1fr; }
-      .menu-featured { grid-column: span 1; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
     }
 
@@ -1006,6 +1090,7 @@
              onerror="this.src='https://images.unsplash.com/photo-1604579278560-2b58e48a1f41?w=900&q=80'">
       </div>
       <div class="menu-card-body">
+        <span class="menu-best-badge">No.1 Popular</span>
         <p class="menu-card-en">Chicken Katsu Curry</p>
         <p class="menu-card-ja">チキンカツカレー</p>
         <p class="menu-card-desc">サクサクのチキンカツとスパイシーなカレーの絶妙なコンビネーション。人気No.1メニューです。</p>
