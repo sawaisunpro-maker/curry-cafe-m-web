@@ -405,26 +405,83 @@
     }
     .topping-item:hover { border-color: var(--spice); color: var(--spice); }
 
-    /* ===== Photo Gallery ===== */
+    /* ===== Photo Gallery (Marquee) ===== */
     #gallery {
       padding: var(--section-pad) 0;
+      overflow: hidden;
     }
     .gallery-header {
       padding: 0 clamp(20px, 8vw, 100px);
       max-width: 1400px;
       margin: 0 auto 50px;
     }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 240px;
-      gap: 3px;
+
+    /* Track wrapper — clips the scrolling content */
+    .marquee-track {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .gallery-item { overflow: hidden; }
-    .gallery-item img { transition: transform 0.6s ease; }
-    .gallery-item:hover img { transform: scale(1.05); }
-    .gallery-item.tall { grid-row: span 2; }
-    .gallery-item.wide { grid-column: span 2; }
+
+    /* One row */
+    .marquee-row {
+      display: flex;
+      gap: 10px;
+      width: max-content;
+    }
+
+    /* Row 1 scrolls left, Row 2 scrolls right */
+    .marquee-row-1 { animation: marqueeLeft  28s linear infinite; }
+    .marquee-row-2 { animation: marqueeRight 32s linear infinite; }
+
+    /* Pause on hover */
+    .marquee-track:hover .marquee-row { animation-play-state: paused; }
+
+    @keyframes marqueeLeft {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes marqueeRight {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    /* Individual photo card */
+    .marquee-item {
+      flex-shrink: 0;
+      width: clamp(220px, 26vw, 360px);
+      height: clamp(160px, 20vw, 260px);
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .marquee-item:hover img { transform: scale(1.06); }
+
+    /* Soft fade edges */
+    .marquee-fade {
+      position: relative;
+    }
+    .marquee-fade::before,
+    .marquee-fade::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: clamp(60px, 8vw, 120px);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .marquee-fade::before {
+      left: 0;
+      background: linear-gradient(to right, var(--cream), transparent);
+    }
+    .marquee-fade::after {
+      right: 0;
+      background: linear-gradient(to left, var(--cream), transparent);
+    }
 
     /* ===== Info ===== */
     #info {
@@ -991,31 +1048,100 @@
     <h2 class="section-heading">Photo Gallery</h2>
     <p class="section-heading-ja">ギャラリー</p>
   </div>
-  <div class="gallery-grid">
-    <div class="gallery-item tall">
-      <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/a9054ef5e7fc3a3e67cb0eb9d34050b1.jpg"
-           alt="チキンカツカレー" style="height:100%;"
-           onerror="this.src='https://images.unsplash.com/photo-1604579278560-2b58e48a1f41?w=700&q=80'">
-    </div>
-    <div class="gallery-item">
-      <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/6ffeda784083cb95ab4c66e83f1bafb1.jpg"
-           alt="唐揚げカレー" style="height:100%;"
-           onerror="this.src='https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&q=80'">
-    </div>
-    <div class="gallery-item">
-      <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/b7414d2bc7bd87fee214965245fcb6c8.jpg"
-           alt="ソーセージカレー" style="height:100%;"
-           onerror="this.src='https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80'">
-    </div>
-    <div class="gallery-item wide">
-      <img src="https://tblg.k-img.com/restaurant/images/Rvw/338184/54a4f0075d0248cda7c6dbf29694aaa1.jpg"
-           alt="料理" style="height:100%;"
-           onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80'">
-    </div>
-    <div class="gallery-item">
-      <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/4e806d6a16cefa4f0fb616a0d723dl95.jpg"
-           alt="チーズカレー" style="height:100%;"
-           onerror="this.src='https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80'">
+
+  <div class="marquee-fade">
+    <div class="marquee-track">
+
+      <!-- Row 1: 左へ流れる (写真を2セット複製して無限ループ) -->
+      <div class="marquee-row marquee-row-1">
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/a9054ef5e7fc3a3e67cb0eb9d34050b1.jpg" alt="チキンカツカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1604579278560-2b58e48a1f41?w=700&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/6ffeda784083cb95ab4c66e83f1bafb1.jpg" alt="唐揚げカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/b7414d2bc7bd87fee214965245fcb6c8.jpg" alt="ソーセージカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/338184/54a4f0075d0248cda7c6dbf29694aaa1.jpg" alt="料理"
+               onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/4e806d6a16cefa4f0fb616a0d723bd95.jpg" alt="チーズカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80'">
+        </div>
+        <!-- 複製（シームレスループ用） -->
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/a9054ef5e7fc3a3e67cb0eb9d34050b1.jpg" alt="チキンカツカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1604579278560-2b58e48a1f41?w=700&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/6ffeda784083cb95ab4c66e83f1bafb1.jpg" alt="唐揚げカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/b7414d2bc7bd87fee214965245fcb6c8.jpg" alt="ソーセージカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/338184/54a4f0075d0248cda7c6dbf29694aaa1.jpg" alt="料理"
+               onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/4e806d6a16cefa4f0fb616a0d723bd95.jpg" alt="チーズカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80'">
+        </div>
+      </div>
+
+      <!-- Row 2: 右へ流れる（順序を入れ替えて変化をつける） -->
+      <div class="marquee-row marquee-row-2">
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/4e806d6a16cefa4f0fb616a0d723bd95.jpg" alt="チーズカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/338184/54a4f0075d0248cda7c6dbf29694aaa1.jpg" alt="料理"
+               onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/b7414d2bc7bd87fee214965245fcb6c8.jpg" alt="ソーセージカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/6ffeda784083cb95ab4c66e83f1bafb1.jpg" alt="唐揚げカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/a9054ef5e7fc3a3e67cb0eb9d34050b1.jpg" alt="チキンカツカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1604579278560-2b58e48a1f41?w=700&q=80'">
+        </div>
+        <!-- 複製（シームレスループ用） -->
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/4e806d6a16cefa4f0fb616a0d723bd95.jpg" alt="チーズカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/338184/54a4f0075d0248cda7c6dbf29694aaa1.jpg" alt="料理"
+               onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/b7414d2bc7bd87fee214965245fcb6c8.jpg" alt="ソーセージカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/6ffeda784083cb95ab4c66e83f1bafb1.jpg" alt="唐揚げカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&q=80'">
+        </div>
+        <div class="marquee-item">
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/224225/a9054ef5e7fc3a3e67cb0eb9d34050b1.jpg" alt="チキンカツカレー"
+               onerror="this.src='https://images.unsplash.com/photo-1604579278560-2b58e48a1f41?w=700&q=80'">
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
