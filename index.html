@@ -148,17 +148,34 @@
       letter-spacing: 0.03em;
       margin-bottom: 14px;
     }
+    .hero-catch-bar {
+      width: 36px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 18px;
+    }
     .hero-sub {
       font-family: 'Noto Serif JP', serif;
-      font-weight: 300;
-      font-size: clamp(0.8rem, 1.5vw, 1rem);
-      letter-spacing: 0.12em;
-      opacity: 0.88;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4.2vw, 3.6rem);
+      letter-spacing: 0.04em;
+      line-height: 1.55;
+      color: #fff;
+      text-shadow: 0 3px 24px rgba(0,0,0,0.65), 0 0 60px rgba(0,0,0,0.3);
     }
-    .hero-sub.catch-out {
-      opacity: 0;
-      transform: translateY(10px);
+    .hero-sub.slide-out {
+      animation: catchSlideOut 0.42s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+    }
+    .hero-sub.slide-in {
+      animation: catchSlideIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes catchSlideOut {
+      from { transform: translateY(0) skewY(0deg);    opacity: 1; }
+      to   { transform: translateY(-55px) skewY(-2deg); opacity: 0; }
+    }
+    @keyframes catchSlideIn {
+      from { transform: translateY(65px) skewY(2deg);  opacity: 0; }
+      to   { transform: translateY(0) skewY(0deg);    opacity: 1; }
     }
     .hero-dots {
       position: absolute;
@@ -1014,7 +1031,8 @@
         <line x1="0" y1="138" x2="500" y2="138" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
       </svg>
     </div>
-    <p class="hero-sub">サクサクのチキンカツ、スパイスの旨みと共に。</p>
+    <div class="hero-catch-bar"></div>
+    <p class="hero-sub">サクサクのチキンカツ、<br>スパイスの旨みと共に。</p>
   </div>
 
   <!-- Dots -->
@@ -1545,11 +1563,14 @@
     slider.style.transform = `translateX(-${100 * index}%)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
 
-    // フェードアウト → テキスト変更 → フェードイン
-    heroSub.classList.add('catch-out');
+    // スライドアウト → テキスト変更 → スライドイン
+    heroSub.classList.add('slide-out');
     setTimeout(() => {
-      heroSub.textContent = slides[index].dataset.catch;
-      heroSub.classList.remove('catch-out');
+      heroSub.classList.remove('slide-out');
+      const text = slides[index].dataset.catch;
+      heroSub.innerHTML = text.includes('、') ? text.replace('、', '、<br>') : text;
+      heroSub.classList.add('slide-in');
+      setTimeout(() => heroSub.classList.remove('slide-in'), 750);
     }, 420);
   }
 
