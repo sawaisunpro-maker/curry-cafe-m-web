@@ -155,13 +155,26 @@
       margin-bottom: 18px;
     }
     .hero-sub {
-      font-family: 'Noto Serif JP', serif;
-      font-weight: 700;
-      font-size: clamp(1.6rem, 4.2vw, 3.6rem);
-      letter-spacing: 0.04em;
-      line-height: 1.55;
       color: #fff;
-      text-shadow: 0 3px 24px rgba(0,0,0,0.65), 0 0 60px rgba(0,0,0,0.3);
+      line-height: 1.2;
+    }
+    .hero-sub-small {
+      display: block;
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+      letter-spacing: 0.14em;
+      opacity: 0.72;
+      margin-bottom: 6px;
+    }
+    .hero-sub-large {
+      display: block;
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 5.8vw, 5.2rem);
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      text-shadow: 0 4px 36px rgba(0,0,0,0.55);
     }
     .hero-sub.slide-out {
       animation: catchSlideOut 0.42s cubic-bezier(0.55, 0, 1, 0.45) forwards;
@@ -1032,7 +1045,7 @@
       </svg>
     </div>
     <div class="hero-catch-bar"></div>
-    <p class="hero-sub">サクサクのチキンカツ、<br>スパイスの旨みと共に。</p>
+    <p class="hero-sub"><span class="hero-sub-small">サクサクのチキンカツ、</span><span class="hero-sub-large">スパイスの旨みと共に。</span></p>
   </div>
 
   <!-- Dots -->
@@ -1568,7 +1581,12 @@
     setTimeout(() => {
       heroSub.classList.remove('slide-out');
       const text = slides[index].dataset.catch;
-      heroSub.innerHTML = text.includes('、') ? text.replace('、', '、<br>') : text;
+      const ci = text.indexOf('、');
+      if (ci !== -1) {
+        heroSub.innerHTML = `<span class="hero-sub-small">${text.slice(0, ci + 1)}</span><span class="hero-sub-large">${text.slice(ci + 1)}</span>`;
+      } else {
+        heroSub.innerHTML = `<span class="hero-sub-large">${text}</span>`;
+      }
       heroSub.classList.add('slide-in');
       setTimeout(() => heroSub.classList.remove('slide-in'), 750);
     }, 420);
